@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PokeGuessr</title>
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header><h1>Who's That Pokemon?</h1></header>
+    <main>
     
-</body>
+
+      <section id="pokepicture">
+        <img
+          id="pokelogo"
+          src="images/pokelogo.png"
+          alt="Silver Pokeball Logo"
+          width="400"
+        />
+        <img id="pokesprite" src="" alt="Hidden Pokemon" width="400" />
+      </section>
+
+      <section id="hints"><h2>Hint:</h2></section>
+
+      <section id="inputs">
+        <form id="guessForm"><input type="text" id="guess" placeholder="Guess" /></form>
+        <div id="buttons">
+          <button id="hint">Hint</button> <button id="next">Next</button>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>
