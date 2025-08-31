@@ -27,9 +27,10 @@ body {
 
 header {
   font-family: "Bangers";
-  font-size: clamp(1rem, 5vw, 2.7rem);
+  font-size: clamp(1rem, 5vw, 1.8rem);
   color: #ffcd08;
   -webkit-text-stroke: 1.5px #2c5e8d;
+  outline: #2c5e8d;
   display: flex;
   justify-content: center;
   margin: 1rem 0;
@@ -40,7 +41,7 @@ header {
 #pokepicture {
   position: relative;
   aspect-ratio: 1/1;
-  width: 50%;
+  width: 60%;
   max-width: 500px;
   display: flex;
   justify-content: center;
@@ -52,6 +53,21 @@ header {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+#pokesprite {
+    filter: brightness();
+}
+
+#pokepicture img:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+#pokepicture img:active {
+  transform: scale(1.07);
+  transition: transform 0.2s ease;
 }
 
 /* Hint Section */
@@ -59,5 +75,68 @@ header {
 #hints {
   display: flex;
   justify-content: center;
-    font-size: clamp(0.8rem, 2vw, 1.5rem);
+  font-size: clamp(1.8rem, 1vw, 3.5rem);
+}
+
+/* Input & Buttons Section */
+
+#inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem auto;
+  gap: 8px;
+  width: 80%;
+}
+
+input,
+button {
+  all: unset;
+}
+
+#guess,
+button {
+  font-size: clamp(1.2rem, 2vw, 3rem);
+  background-color: #b8c3e0;
+  border: 4px solid #8e9fcd;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  transition: transform 0.2s ease;
+}
+
+#guessForm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#buttons {
+  display: flex;
+  gap: 8px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#guessForm input:hover,
+#guessForm input:focus {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+#buttons button:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+#buttons button:active {
+  transform: scale(0.98);
+  transition: transform 0.2s ease;
+}
+
+#guessForm input:active {
+  transform: scale(1.01);
+  transition: transform 0.2s ease;
 }
