@@ -27,7 +27,7 @@ body {
 
 header {
   font-family: "Bangers";
-  font-size: clamp(1rem, 5vw, 1.8rem);
+  font-size: clamp(1rem, 5vw, 2.2rem);
   color: #ffcd08;
   -webkit-text-stroke: 0.3px #2c5e8d;
   display: flex;
@@ -41,10 +41,11 @@ header {
   position: relative;
   aspect-ratio: 1/1;
   width: 60%;
-  max-width: 500px;
+  max-width: 475px;
   display: flex;
   justify-content: center;
   margin: 1rem auto;
+  transition: opacity 0.5s ease; 
 }
 
 #pokepicture img {
@@ -56,15 +57,16 @@ header {
 }
 
 #pokesprite {
-    filter: brightness();
+  filter: brightness(0);
+
 }
 
-#pokepicture img:hover {
+#pokesprite:hover {
   transform: scale(1.1);
   transition: transform 0.2s ease;
 }
 
-#pokepicture img:active {
+#pokesprite:active {
   transform: scale(1.07);
   transition: transform 0.2s ease;
 }
@@ -73,8 +75,14 @@ header {
 
 #hints {
   display: flex;
-  justify-content: center;
-  font-size: clamp(1.8rem, 1vw, 3.5rem);
+  flex-direction: column;
+  align-items: center;
+  font-size: clamp(0.5rem, 5vw, 1.5rem);
+}
+
+#hints p {
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 /* Input & Buttons Section */
