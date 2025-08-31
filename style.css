@@ -1,0 +1,63 @@
+/* Default Styling */
+
+html {
+  font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main,
+button,
+input {
+  font-family: "ADLaM Display";
+}
+
+body {
+  background-color: #cfd6ea;
+  display: flex;
+  flex: column;
+  justify-content: center;
+}
+
+/* Header Section */
+
+header {
+  font-family: "Bangers";
+  font-size: clamp(1rem, 5vw, 2.7rem);
+  color: #ffcd08;
+  -webkit-text-stroke: 1.5px #2c5e8d;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+/* Pokemon Picture Section */
+
+#pokepicture {
+  position: relative;
+  aspect-ratio: 1/1;
+  width: 50%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+#pokepicture img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Hint Section */
+
+#hints {
+  display: flex;
+  justify-content: center;
+    font-size: clamp(0.8rem, 2vw, 1.5rem);
+}

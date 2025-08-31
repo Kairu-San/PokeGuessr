@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PokeGuessr</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Bangers&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <header><h1>Who's That Pokemon?</h1></header>
     <main>
-    
-
+      <header><h1>Who's That Pokemon?</h1></header>
       <section id="pokepicture">
         <img
           id="pokelogo"
@@ -18,13 +22,20 @@
           alt="Silver Pokeball Logo"
           width="400"
         />
-        <img id="pokesprite" src="" alt="Hidden Pokemon" width="400" />
+        <img
+          id="pokesprite"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png"
+          alt="Hidden Pokemon"
+          width="400"
+        />
       </section>
 
-      <section id="hints"><h2>Hint:</h2></section>
+      <section id="hints"><h2>Generation: IV</h2></section>
 
       <section id="inputs">
-        <form id="guessForm"><input type="text" id="guess" placeholder="Guess" /></form>
+        <form id="guessForm">
+          <input type="text" id="guess" placeholder="Guess" />
+        </form>
         <div id="buttons">
           <button id="hint">Hint</button> <button id="next">Next</button>
         </div>
