@@ -27,23 +27,39 @@
           src=""
           alt="Hidden Pokemon"
           width="400"
-          style="display: none;"
+          style="display: none"
+          draggable="false"
         />
       </section>
 
-      <section id="hints"><p id="hintcategory"></p><p id="hinttext"></p></section>
+      <section><p id="correctName">?</p></section>
+
+      <section id="hints">
+        <p id="hintcategory">Hints:</p>
+        <p id="hinttext"></p>
+      </section>
 
       <section id="inputs">
         <form id="guessForm">
-          <input type="text" id="guess" placeholder="Which Pokemon?" autocomplete="off" />
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="guess"
+              placeholder="Which Pokemon?"
+              autocomplete="off"
+            />
+            <span class="checkmark">&#x2714;</span>
+            <span class="xmark">&#x2716;</span>
+          </div>
         </form>
         <div id="buttons">
-          <button id="hint" onclick="pokeHint()">Hint</button> <button id="next">Next</button>
+          <button id="hint" onclick="pokeHint()">Hint</button>
+          <button id="next">Next</button>
         </div>
       </section>
     </main>
-    <script src="index.js"></script> 
+    <script src="index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
   </body>
 </html>

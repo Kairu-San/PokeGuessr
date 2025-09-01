@@ -27,7 +27,7 @@ body {
 
 header {
   font-family: "Bangers";
-  font-size: clamp(1rem, 5vw, 2.2rem);
+  font-size: clamp(1rem, 5vw, 2rem);
   color: #ffcd08;
   -webkit-text-stroke: 0.3px #2c5e8d;
   display: flex;
@@ -44,8 +44,8 @@ header {
   max-width: 475px;
   display: flex;
   justify-content: center;
-  margin: 1rem auto;
-  transition: opacity 0.5s ease; 
+  margin: 0.5rem auto;
+  transition: opacity 0.5s ease;
 }
 
 #pokepicture img {
@@ -58,6 +58,9 @@ header {
 
 #pokesprite {
   filter: brightness(0);
+  opacity: 0;
+  transition: opacity 0.5s ease, filter 0.5s ease;
+  display: block;
 
 }
 
@@ -71,6 +74,17 @@ header {
   transition: transform 0.2s ease;
 }
 
+/* Correct Name Section */
+#correctName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: clamp(1.5em, 5vw, 3rem);
+  -webkit-text-stroke: clamp(1px, 0.05em ,2.5px);
+  -webkit-text-stroke-color: black;
+}
+
+
 /* Hint Section */
 
 #hints {
@@ -81,7 +95,7 @@ header {
 }
 
 #hints p {
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 
@@ -147,3 +161,31 @@ button {
   transform: scale(1.01);
   transition: transform 0.2s ease;
 }
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.input-wrapper .checkmark, .input-wrapper .xmark  {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: green;
+  font-size: 2rem;
+  opacity: 0; /* hidden by default */
+  transition: opacity 0.2s ease;
+}
+
+.input-wrapper .xmark {
+  color: red;
+}
+

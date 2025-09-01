@@ -13,10 +13,37 @@ async function pokefetchreload() {
 
     //Next button reloads website
     const next = document.getElementById("next");
-    next.addEventListener("click", () => { location.reload(); });
+    next.addEventListener("click", async () => {
+        if (!reveal) {
 
-    const pokemonName = rngReload;
-    const responce = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+            const input = document.getElementById("guess").value.toLowerCase();
+            if(input == currentData.name){
+                await pokeGuess(input);
+            }else {
+            
+            //Reveal xmark
+            const xmark = document.getElementsByClassName("xmark")[0];
+            xmark.style.opacity = 1;
+            //Reveal pokeImg
+            anime({
+                targets: pokeImg,
+                filter: ['brightness(0%)', 'brightness(100%)'],
+                duration: 240,
+                easing: 'easeInOutQuad'
+            });
+
+            //reveal pokeName
+            const showName = document.getElementById("correctName");
+            showName.textContent = capitalize(currentData.name);
+            colorize(showName);
+
+            await delay(2000);}
+        }
+
+        location.reload();
+    });
+    const pokemonNo = rngReload;
+    const responce = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNo}`);
 
     //Turns responce into json file
     const data = await responce.json();
@@ -27,9 +54,8 @@ async function pokefetchreload() {
 
     //Turn data into image
     const pokeSprite = data.sprites.other["official-artwork"].front_default;
-    const pokeImg = document.getElementById("pokesprite");
-
-
+    pokeImg = document.getElementById("pokesprite");
+    pokeImg.crossOrigin = "Anonymous";
     pokeImg.src = pokeSprite;
     pokeImg.style.opacity = 0;
     pokeImg.style.display = "block";
@@ -37,7 +63,6 @@ async function pokefetchreload() {
     await loadImage(pokeImg, pokeSprite);
 
     //Fade in/out animations
-
     anime({
         targets: pokeImg,
         opacity: 1,
@@ -46,9 +71,59 @@ async function pokefetchreload() {
     });
 }
 
-function pokefetch() {
-    const guessInput = document.getElementById("guess").value.toLowerCase();
+pokeFetch();
+//Submits the enter from the form
+function pokeFetch() {
+    const form = document.getElementById("guessForm");
+
+    //Entering form gets the typed value
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        pokemonGuess = document.getElementById("guess").value.toLowerCase();
+        pokeGuess(pokemonGuess);
+
+    });
 }
+
+let pokeImg = null;
+let reveal = false;
+
+//If guess is right, shows pokemon
+async function pokeGuess(pokeName) {
+    if (pokeName == currentData.name) {
+        if (!reveal) {
+            reveal = true;
+            anime({
+                targets: pokeImg,
+                filter: ['brightness(0%)', 'brightness(100%)'],
+                duration: 240,
+                easing: 'easeInOutQuad'
+            });
+        }
+        const showName = document.getElementById("correctName");
+        showName.textContent = capitalize(currentData.name);
+        colorize(showName);
+
+        //Reveal checkmark
+        const checkmark = document.getElementsByClassName("checkmark")[0];
+        checkmark.style.opacity = 1;
+
+        await delay(2000);
+
+        location.reload();
+    }
+}
+
+
+function colorize(pokename) {
+    //Reveal name
+    const colorThief = new ColorThief();
+    const dominantColor = colorThief.getColor(pokeImg);
+    console.log("dominantColor ==> ", dominantColor);
+    pokename.style.color = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
+
+}
+
 
 let hintIndex = -1;
 
