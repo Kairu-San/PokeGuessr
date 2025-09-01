@@ -67,6 +67,15 @@ async function pokefetchreload() {
             duration: 300,
             easing: 'easeInOutQuad'
         });
+
+        anime({
+            targets: score,
+            scale: [5, 0, 5],
+            opacity: [0, 1],
+            duration: 300,
+            easing: 'easeInOutQuad'
+        });
+
         await anime({
             targets: pokeImg,
             scale: [0, 1],
@@ -288,9 +297,35 @@ async function pokeHint() {
 
 
 function updateScoreboard() {
-    document.getElementById("score").textContent = `Score: ${score}`;
+    const scoreEl = document.getElementById("scoreValue");
+    const oldScore = parseInt(scoreEl.textContent) || 0;
+
+    // Animate number change
+    anime({
+        targets: { val: oldScore },
+        val: score,
+        round: 1,
+        easing: 'easeOutExpo',
+        duration: 600,
+        update: function (anim) {
+            scoreEl.textContent = anim.animations[0].currentValue;
+        }
+    });
+
+    if (firstLoad) {
+
+    } else {
+        anime({
+            targets: '#scoreValue',
+            scale: [1, 1.4, 1], // grow and shrink
+            duration: 600,
+            easing: 'easeOutExpo'
+        });
+    }
+
     localStorage.setItem("score", score);
 }
+
 
 //Capitalize Function
 function capitalize(str) {
