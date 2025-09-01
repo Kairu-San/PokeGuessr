@@ -16,28 +16,29 @@ async function pokefetchreload() {
     next.addEventListener("click", async () => {
         if (!reveal) {
 
+            //Checks if the input is correct
             const input = document.getElementById("guess").value.toLowerCase();
-            if(input == currentData.name){
+            if (input == currentData.name) {
                 await pokeGuess(input);
-            }else {
-            
-            //Reveal xmark
-            const xmark = document.getElementsByClassName("xmark")[0];
-            xmark.style.opacity = 1;
-            //Reveal pokeImg
-            anime({
-                targets: pokeImg,
-                filter: ['brightness(0%)', 'brightness(100%)'],
-                duration: 240,
-                easing: 'easeInOutQuad'
-            });
+            } else {
 
-            //reveal pokeName
-            const showName = document.getElementById("correctName");
-            showName.textContent = capitalize(currentData.name);
-            colorize(showName);
+                //Reveal xmark
+                const xmark = document.getElementsByClassName("xmark")[0];
+                xmark.style.opacity = 1;
+                //Reveal pokeImg
+                anime({
+                    targets: pokeImg,
+                    filter: ['brightness(0%)', 'brightness(100%)'],
+                    duration: 240,
+                    easing: 'easeInOutQuad'
+                });
 
-            await delay(2000);}
+                //reveal pokeName
+                const showName = document.getElementById("correctName");
+                showName.textContent = capitalize(currentData.name);
+                colorize(showName);
+                await delay(2000);
+            }
         }
 
         location.reload();
@@ -99,18 +100,32 @@ async function pokeGuess(pokeName) {
                 duration: 240,
                 easing: 'easeInOutQuad'
             });
+
+            const showName = document.getElementById("correctName");
+            showName.textContent = capitalize(currentData.name);
+            colorize(showName);
+
+            //Reveal checkmark
+            const checkmark = document.getElementsByClassName("checkmark")[0];
+            checkmark.style.opacity = 1;
+
+            await delay(2000);
+
+            location.reload();
         }
-        const showName = document.getElementById("correctName");
-        showName.textContent = capitalize(currentData.name);
-        colorize(showName);
-
-        //Reveal checkmark
-        const checkmark = document.getElementsByClassName("checkmark")[0];
-        checkmark.style.opacity = 1;
-
-        await delay(2000);
-
-        location.reload();
+    } else {
+        const input = document.getElementById("guess");
+        anime({
+            targets: input,
+            translateX: [
+                { value: -50, duration:50 },
+                { value: 50, duration: 50 },
+                { value: -50, duration: 50 },
+                { value: 50, duration: 50 },
+                { value: 0, duration: 50 }
+            ],
+            easing: 'easeInOutQuad'
+        });
     }
 }
 
