@@ -61,7 +61,6 @@ header {
   opacity: 0;
   transition: opacity 0.5s ease, filter 0.5s ease;
   display: block;
-
 }
 
 #pokesprite:hover {
@@ -80,10 +79,9 @@ header {
   flex-direction: column;
   align-items: center;
   font-size: clamp(1.5em, 5vw, 3rem);
-  -webkit-text-stroke: clamp(1px, 0.05em ,2.5px);
+  -webkit-text-stroke: clamp(1px, 0.05em, 2.5px);
   -webkit-text-stroke-color: black;
 }
-
 
 /* Hint Section */
 
@@ -173,7 +171,8 @@ button {
   box-sizing: border-box;
 }
 
-.input-wrapper .checkmark, .input-wrapper .xmark  {
+.input-wrapper .checkmark,
+.input-wrapper .xmark {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -189,3 +188,32 @@ button {
   color: red;
 }
 
+/* Phone Sizes */
+
+@media (max-width: 600px) {
+  /* Header Section */
+  header h1 {
+    font-size: clamp(1rem, 11.5vw, 3rem);
+  }
+
+  /* Image Section */
+  #pokepicture {
+    width: 80%;
+  }
+
+  /* Name Section */
+  #correctName {
+    font-size: clamp(1rem, 11.5vw, 3rem);
+  }
+
+  /* Hints Section */
+  #hints {
+    font-size: clamp(1.2rem, 5vw, 3rem);
+  }
+
+  /* Inputs Section */
+  #guess,
+  #buttons button {
+    font-size: clamp(2rem, 5vw, 30rem);
+  }
+}
