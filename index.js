@@ -175,6 +175,7 @@ function pokeFetch() {
 
 //If guess is right, shows pokemon
 async function pokeGuess(pokeName) {
+    input.blur();
     if (normalizeName(pokeName) === normalizeName(currentData.name)) {
 
         if (!reveal) {
