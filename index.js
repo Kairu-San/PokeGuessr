@@ -1,54 +1,39 @@
 //Call for pokefetch everytime site loads
 window.addEventListener("load", () => {
-    pokefetchreload();
+    pokefetchreload()
+    score = 0;
+    localStorage.setItem("score", score);
+    updateScoreboard();
 });
 
+//variable setters
 let currentData = null;
+let pokeImg = document.getElementById("pokesprite");
+let reveal = false;
+let hintIndex = -1;
+let firstLoad = true;
 
+//Pokemon Cries
+pokeImg.addEventListener("click", () => {
+    if (!currentData) return;
+
+    const pokeId = currentData.id;
+    const audioUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokeId}.ogg`;
+
+    const audio = new Audio(audioUrl);
+    audio.volume = 0.10;
+    audio.play().catch(err => console.log("Audio failed to play:", err));
+});
+
+
+//reload site
 async function pokefetchreload() {
 
     //RNG setter everytime site loads
     const randomNumber = Math.floor(Math.random() * 1025) + 1;
     const rngReload = randomNumber;
-
-    //Next button reloads website
-    const next = document.getElementById("next");
-    next.addEventListener("click", async () => {
-        if (!reveal) {
-
-            //Checks if the input is correct
-            const input = document.getElementById("guess").value.toLowerCase();
-            if (input == currentData.name) {
-                await pokeGuess(input);
-            } else {
-
-                //Reveal xmark
-                const xmark = document.getElementsByClassName("xmark")[0];
-                xmark.style.opacity = 1;
-                //Reveal pokeImg
-                anime({
-                    targets: pokeImg,
-                    filter: ['brightness(0%)', 'brightness(100%)'],
-                    duration: 240,
-                    easing: 'easeInOutQuad'
-                });
-
-                //reveal pokeName
-                const showName = document.getElementById("correctName");
-                showName.textContent = capitalize(currentData.name);
-                colorize(showName);
-
-                next.disabled = true;
-                await delay(2000);
-            }
-        }
-
-        location.reload();
-    });
     const pokemonNo = rngReload;
     const responce = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNo}`);
-
-    //Turns responce into json file
     const data = await responce.json();
     console.log(data);
 
@@ -57,34 +42,110 @@ async function pokefetchreload() {
 
     //Turn data into image
     const pokeSprite = data.sprites.other["official-artwork"].front_default;
-    pokeImg = document.getElementById("pokesprite");
     pokeImg.crossOrigin = "Anonymous";
     pokeImg.src = pokeSprite;
-    pokeImg.style.opacity = 0;
+    pokeImg.style.opacity = 1;
     pokeImg.style.display = "block";
-
-    //Pokemon Cries
-    pokeImg.addEventListener("click", () => {
-        if (!currentData) return;
-
-        const pokeId = currentData.id;
-        const audioUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokeId}.ogg`;
-
-        const audio = new Audio(audioUrl);
-        audio.volume = 0.10;
-        audio.play().catch(err => console.log("Audio failed to play:", err));
-    });
 
     await loadImage(pokeImg, pokeSprite);
 
-    //Fade in/out animations
-    anime({
-        targets: pokeImg,
-        opacity: 1,
-        duration: 300,
-        easing: 'easeInOutQuad'
-    });
+    if (firstLoad) {
+        await anime({
+            targets: pokeImg,
+            scale: [0, 1],
+            duration: 100,
+            easing: 'easeInOutQuad'
+        }).finished;
+
+        firstLoad = false;
+    } else {
+
+        anime({
+            targets: [correctName, hints],
+            translateY: [50, 0],
+            opacity: [0, 1],
+            duration: 300,
+            easing: 'easeInOutQuad'
+        });
+        await anime({
+            targets: pokeImg,
+            scale: [0, 1],
+            duration: 100,
+            easing: 'easeInOutQuad'
+        }).finished;
+    }
+    pokeImg.style.transform = "";
 }
+
+//Next button reloads website
+const next = document.getElementById("next");
+next.addEventListener("click", async () => {
+    next.disabled = true;
+    if (!reveal) {
+
+        //Checks if the input is correct
+        const input = document.getElementById("guess").value.toLowerCase();
+        if (input == currentData.name) {
+            await pokeGuess(input);
+        } else {
+
+            //Reveal xmark
+            anime({
+                targets: '.xmark',
+                scale: [0, 1],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+            //Reveal pokeImg
+            anime({
+                targets: pokeImg,
+                translateX: [
+                    { value: -50, duration: 50 },
+                    { value: 50, duration: 50 },
+                    { value: -50, duration: 50 },
+                    { value: 50, duration: 50 },
+                    { value: 0, duration: 50 }
+                ],
+                duration: 200,
+                easing: 'easeOutExpo'
+            });
+
+            anime({
+                targets: pokeImg,
+                filter: ['brightness(0%)', 'brightness(100%)'],
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+
+            //reveal pokeName
+            const showName = document.getElementById("correctName");
+            showName.textContent = capitalize(currentData.name);
+            colorize(showName);
+
+            await anime({
+                targets: showName,
+                scale: [0, 1],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutExpo'
+            }).finished;
+
+            await delay(2000);
+
+            anime({
+                targets: '.xmark',
+                scale: [1, 0],
+                duration: 300,
+                easing: 'easeInOutQuad'
+            });
+            await resetUI();
+            await pokefetchreload();
+
+        }
+    }
+    next.disabled = false;
+});
 
 pokeFetch();
 //Submits the enter from the form
@@ -100,32 +161,66 @@ function pokeFetch() {
     });
 }
 
-let pokeImg = null;
-let reveal = false;
+
+
 
 //If guess is right, shows pokemon
 async function pokeGuess(pokeName) {
-    if (pokeName == currentData.name) {
+    if (normalizeName(pokeName) === normalizeName(currentData.name)) {
+
         if (!reveal) {
             reveal = true;
+            next.disabled = true;
+            //Pokepoints per guess, minus points if hints used
+            score += (hintIndex === -1) ? 10 : 5;
+            updateScoreboard();
+
             anime({
                 targets: pokeImg,
                 filter: ['brightness(0%)', 'brightness(100%)'],
-                duration: 240,
-                easing: 'easeInOutQuad'
+                duration: 300,
+                easing: 'easeOutExpo'
             });
 
+            anime({
+                targets: pokeImg,
+                scale: [1.5, 1],
+                duration: 200,
+                easing: 'easeOutExpo'
+            });
+            //reveal Name
             const showName = document.getElementById("correctName");
             showName.textContent = capitalize(currentData.name);
             colorize(showName);
 
+            anime({
+                targets: showName,
+                scale: [0, 1],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutExpo'
+            }).finished;
+
             //Reveal checkmark
-            const checkmark = document.getElementsByClassName("checkmark")[0];
-            checkmark.style.opacity = 1;
+            await anime({
+                targets: '.checkmark',
+                scale: [0, 1],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+
 
             await delay(2000);
-
-            location.reload();
+            anime({
+                targets: [`.checkmark`],
+                scale: [1, 0],
+                duration: 300,
+                easing: 'easeInOutQuad'
+            }).finished;
+            await resetUI();
+            await pokefetchreload();
+            next.disabled = false;
         }
 
         // Shake animation when input entered is wrong
@@ -155,9 +250,6 @@ function colorize(pokename) {
 
 }
 
-
-let hintIndex = -1;
-
 async function pokeHint() {
     if (currentData) {
         //Fetch abilities
@@ -181,28 +273,24 @@ async function pokeHint() {
         //Get the html id's
         const hintp = document.getElementById("hinttext");
         const hintcat = document.getElementById("hintcategory");
-
-        //Fade in/out animation
-        hintp.style.opacity = 0;
-        hintcat.style.opacity = 0;
-
-        await delay(200);
-
         hintp.textContent = hint.value;
         hintcat.textContent = hint.name;
 
-        hintp.style.opacity = 1;
-        hintcat.style.opacity = 1;
-
-        console.log(hint);
+        await anime({
+            targets: [hintcat, hintp],
+            translateY: [20, 0],
+            opacity: [0, 1],
+            duration: 300,
+            easing: 'easeOutExpo'
+        }).finished;
     }
 }
 
-//Pokesounds when pokeImg is pressed
-async function pokeCry() {
-    alert("nigga");
-}
 
+function updateScoreboard() {
+    document.getElementById("score").textContent = `Score: ${score}`;
+    localStorage.setItem("score", score);
+}
 
 //Capitalize Function
 function capitalize(str) {
@@ -210,6 +298,10 @@ function capitalize(str) {
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
+}
+
+function normalizeName(name) {
+    return name.toLowerCase().replace(/-/g, " ").trim();
 }
 
 
@@ -230,3 +322,49 @@ window.addEventListener("keydown", (e) => {
     input.focus();
 });
 
+async function resetUI() {
+    reveal = false;
+    hintIndex = -1;
+
+    //Fade in/out animations
+    anime({
+        targets: input,
+        scale: [1, 0.9],        // text scales down to 0
+        duration: 150,
+        easing: 'easeInOutQuad',
+        complete: () => {
+            input.value = ""; // clear typed text
+            input.style.transform = "scale(1)"; // reset scale
+            input.style.transform = "";
+        }
+    });
+
+    anime({
+        targets: [correctName, hints],
+        translateY: [0, 50],
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInOutQuad'
+    });
+
+    await anime({
+        targets: pokeImg,
+        scale: [1, 0],
+        duration: 200,
+        easing: 'easeInOutQuad'
+    }).finished;
+
+
+    await anime({
+        targets: pokeImg,
+        filter: [`brightness(100%)`, `brightness(0%)`],
+        duration: 300,
+        easing: 'easeInOutQuad'
+    }).finished;
+
+    document.getElementById("guess").value = "";
+    document.getElementById("correctName").textContent = "?";
+    document.getElementById("correctName").style.color = "black";
+    document.getElementById("hinttext").textContent = "";
+    document.getElementById("hintcategory").textContent = "Hints: ";
+};
