@@ -117,7 +117,7 @@ button {
 
 #guess,
 button {
-  font-size: clamp(1.2rem, 2vw, 3rem);
+  font-size: clamp(2rem, 2vw, 3rem);
   background-color: #b8c3e0;
   border: 4px solid #8e9fcd;
   border-radius: 10px;
@@ -180,7 +180,7 @@ button {
   transform: translateY(-50%);
   pointer-events: none;
   color: green;
-  font-size: 2rem;
+  font-size: clamp(1.3rem, 5vw, 2rem);
   opacity: 0; /* hidden by default */
   transition: opacity 0.2s ease;
 }

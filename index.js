@@ -37,6 +37,8 @@ async function pokefetchreload() {
                 const showName = document.getElementById("correctName");
                 showName.textContent = capitalize(currentData.name);
                 colorize(showName);
+
+                next.disabled = true;
                 await delay(2000);
             }
         }
@@ -60,6 +62,18 @@ async function pokefetchreload() {
     pokeImg.src = pokeSprite;
     pokeImg.style.opacity = 0;
     pokeImg.style.display = "block";
+
+    //Pokemon Cries
+    pokeImg.addEventListener("click", () => {
+        if (!currentData) return;
+
+        const pokeId = currentData.id;
+        const audioUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokeId}.ogg`;
+
+        const audio = new Audio(audioUrl);
+        audio.volume = 0.10;
+        audio.play().catch(err => console.log("Audio failed to play:", err));
+    });
 
     await loadImage(pokeImg, pokeSprite);
 
@@ -113,12 +127,14 @@ async function pokeGuess(pokeName) {
 
             location.reload();
         }
+
+        // Shake animation when input entered is wrong
     } else {
         const input = document.getElementById("guess");
         anime({
             targets: input,
             translateX: [
-                { value: -50, duration:50 },
+                { value: -50, duration: 50 },
                 { value: 50, duration: 50 },
                 { value: -50, duration: 50 },
                 { value: 50, duration: 50 },
@@ -182,6 +198,12 @@ async function pokeHint() {
     }
 }
 
+//Pokesounds when pokeImg is pressed
+async function pokeCry() {
+    alert("nigga");
+}
+
+
 //Capitalize Function
 function capitalize(str) {
     return str
@@ -201,3 +223,10 @@ async function loadImage(imgElement, src) {
 
 //Delayer
 function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+//If key is pressed it focuses the input
+const input = document.getElementById("guess");
+window.addEventListener("keydown", (e) => {
+    input.focus();
+});
+
