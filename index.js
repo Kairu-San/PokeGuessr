@@ -112,6 +112,10 @@ next.addEventListener("click", async () => {
             await pokeGuess(input);
         } else {
 
+            //Minus 10 points if user presses next
+            score = Math.max(0, score - 10)
+            updateScoreboard();
+
             //Reveal xmark
             anime({
                 targets: '.xmark',
