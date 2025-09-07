@@ -6,10 +6,17 @@ window.addEventListener("load", () => {
     updateScoreboard();
 });
 
-//ESC button for next button
+//ESC key for next button
 window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
         next.click();
+    }
+});
+
+//TAB key for hint button
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Tab") {
+        pokeHint();
     }
 });
 
@@ -362,6 +369,17 @@ function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 //If key is pressed it focuses the input
 const input = document.getElementById("guess");
 window.addEventListener("keydown", (e) => {
+    // Ignore control keys
+    if (
+        e.key === "Escape" ||
+        e.key === "ArrowUp" ||
+        e.key === "ArrowDown" ||
+        e.ctrlKey || e.altKey || e.metaKey
+    ) {
+        return;
+    }
+
+    // Focus input only for normal typing
     input.focus();
 });
 
