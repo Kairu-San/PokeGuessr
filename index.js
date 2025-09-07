@@ -6,6 +6,13 @@ window.addEventListener("load", () => {
     updateScoreboard();
 });
 
+//ESC button for next button
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        next.click();
+    }
+});
+
 //variable setters
 let currentData = null;
 let pokeImg = document.getElementById("pokesprite");
@@ -255,7 +262,6 @@ function colorize(pokename) {
     //Reveal name
     const colorThief = new ColorThief();
     const dominantColor = colorThief.getColor(pokeImg);
-    console.log("dominantColor ==> ", dominantColor);
     pokename.style.color = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
 
 }
@@ -336,6 +342,7 @@ function capitalize(str) {
         .join(' ');
 }
 
+//Dash detector and fixer
 function normalizeName(name) {
     return name.toLowerCase().replace(/-/g, " ").trim();
 }
@@ -358,6 +365,7 @@ window.addEventListener("keydown", (e) => {
     input.focus();
 });
 
+//resets ui
 async function resetUI() {
     reveal = false;
     hintIndex = -1;
