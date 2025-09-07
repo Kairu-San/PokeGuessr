@@ -2,6 +2,8 @@
 
 html {
   font-size: 16px;
+  width: 100%;
+  height: 100%;
 }
 
 * {
@@ -16,11 +18,18 @@ input {
   font-family: "ADLaM Display";
 }
 
+main {
+  height: 100dvh;
+  width: 100dvw;
+  max-width: 500px;
+}
+
 body {
   background-color: #cfd6ea;
   display: flex;
   flex: column;
   justify-content: center;
+  
 }
 
 /* Header Section */
@@ -33,6 +42,9 @@ header {
   display: flex;
   justify-content: center;
   margin: 1rem 0;
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 /* Score Section */
@@ -89,6 +101,9 @@ header {
   font-size: clamp(2em, 5vw, 3rem);
   -webkit-text-stroke: clamp(1px, 0.05em, 2.5px);
   -webkit-text-stroke-color: black;
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 /* Hint Section */
@@ -98,6 +113,9 @@ header {
   flex-direction: column;
   align-items: center;
   font-size: clamp(0.5rem, 5vw, 1.4rem);
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 #hints p {
@@ -163,16 +181,11 @@ button {
   transition: transform 0.2s ease;
 }
 
-
 .input-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
-}
-
-.input-wrapper input {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
 }
 
 .input-wrapper .checkmark,
@@ -181,7 +194,7 @@ button {
   right: 10px;
   transform: scale(0);
   pointer-events: none;
-  font-size: clamp(1.3rem, 5vw, 2rem);
+  font-size: 2em;
   opacity: 0;
 }
 
@@ -206,14 +219,24 @@ button {
     width: 80%;
   }
 
+  #pokesprite {
+    -webkit-touch-callout: none; /* Prevents long press context menu on iOS Safari */
+    -webkit-user-select: none; /* Prevents text/image selection */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
   /* Name Section */
   #correctName {
-    font-size: clamp(1rem, 11.5vw, 3rem);
+    font-size: clamp(1rem, 11.5vw, 2rem);
+    word-wrap: break-word;
   }
 
   /* Hints Section */
   #hints {
     font-size: clamp(1.2rem, 5vw, 3rem);
+    word-wrap: break-word;
   }
 
   /* Inputs Section */
@@ -225,7 +248,7 @@ button {
 
   .input-wrapper .checkmark,
   .input-wrapper .xmark {
-    top: 10%;
+    font-size: 1.5em;
   }
 
   #guess,
