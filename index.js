@@ -113,7 +113,7 @@ next.addEventListener("click", async () => {
         } else {
 
             //Minus 10 points if user presses next
-            score = Math.max(0, score - 10)
+            score = Math.max(0, score - 100)
             updateScoreboard();
 
             //Reveal xmark
@@ -200,7 +200,7 @@ async function pokeGuess(pokeName) {
             reveal = true;
             next.disabled = true;
             //Pokepoints per guess, minus points if hints used
-            score += (hintIndex === -1) ? 10 : 5;
+            score += (hintIndex === -1) ? 100 : 50;
             updateScoreboard();
 
             anime({
